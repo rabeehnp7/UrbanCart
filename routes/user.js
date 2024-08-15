@@ -96,7 +96,11 @@ router.get('/order-success',(req,res)=>{
 })
 router.get('/orders',checkLogin,(req,res)=>{
   userHelpers.getOrders(req.session.user._id).then((orderList)=>{
-    res.render('user/orders',{products:orderList.products,status:orderList.status,total:orderList.grandTotal,date:orderList.date})
+    if(orderList){
+      res.render('user/orders',{products:orderList.products,status:orderList.status,total:orderList.grandTotal,date:orderList.date})
+    }else{
+      res.send("No orders")
+    }
   })
 })
 router.post('/verify-payment',(req,res)=>{
