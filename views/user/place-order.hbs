@@ -1,0 +1,120 @@
+<div class="container mt-5">
+  <div class="row">
+    <!-- Left side: Order Form -->
+    <div class="col-md-8">
+      <h2 class="mb-4">Place Your Order</h2>
+      {{!-- action="/place-order" method="POST" --}}
+      <form id="checkout-form">
+        <div class="form-group">
+          <label for="address">Address</label>
+          <textarea class="form-control" id="address" name="address" rows="3" placeholder="Enter your delivery address" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" class="form-control" id="city" name="city" placeholder="Enter your city" required>
+        </div>
+
+        <div class="form-group">
+          <label for="state">State</label>
+          <input type="text" class="form-control" id="state" name="state" placeholder="Enter your state" required>
+          <input type="text" name="user" value="{{user._id}}" hidden>
+          <input type="text" name="userName" value="{{user.name}}" hidden>
+        </div>
+
+        <div class="form-group">
+          <label for="zip">Zip Code</label>
+          <input type="text" class="form-control" id="zip" name="zip" placeholder="Enter your zip code" required>
+        </div>
+
+        <h4 class="mt-4">Payment Method</h4>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="COD" checked>
+          <label class="form-check-label" for="cod">
+            Cash on Delivery
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="paymentMethod" id="razorpay" value="Razorpay">
+          <label class="form-check-label" for="razorpay">
+            Razorpay
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary mt-4">Place Order</button>
+      </form>
+    </div>
+
+    <div class="col-md-4 pt-5">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Order Summary</h4>
+          <hr>
+          <h5>Total: ₹ <span id="grandTotal">{{grandTotal}}</span></h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    $("#checkout-form").submit((e)=>{
+        e.preventDefault()
+        $.ajax({
+            url:'/place-order',
+            method:'post',
+            data:$("#checkout-form").serialize(),
+            success:(response)=>{
+                if(response.cod_success){
+                    location.href='/order-success'
+                }else{
+                    razorpayPayment(response.order)
+                }
+            }
+        })
+    })
+
+
+    function razorpayPayment(order){
+        let amount=order.amount.toFixed(2)
+        var options = {
+    "key": "rzp_test_SQi1Znz85aOuLy", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount,// Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp", //your business name
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id,
+    "handler": function (response){
+        verifyPayment(response,order)
+        console.log("respose" +response)
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+    rzp1.open()
+}
+
+function verifyPayment(payment,order){
+    $.ajax({
+        url:'/verify-payment',
+        data:{
+            order,
+            payment
+        },
+        method:'post',
+        success:(response)=>{
+          if(response==='success'){
+              location.href='/order-success'
+          }else{
+            alert("payment failed")
+          }
+        }
+    })
+}
+
+
+</script>

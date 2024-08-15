@@ -1,0 +1,60 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <!-- Bootstrap CSS is already included in your main layout (main.hbs) -->
+
+  <!-- Custom styles for this template -->
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .login-form {
+      max-width: 350px;
+      margin: 0 auto;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+      margin-top: 100px;
+    }
+
+    .register-link {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-5">
+        <form class="login-form" action="/admin/admin-login" method="POST">
+          <h2 class="text-center mb-4">Login</h2>
+          <div class="mb-3">
+                    {{#if adminLoginErr}}
+        <p class="text-danger">Invalid Username or Password</p>
+        {{/if}}
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle with Popper is already included in your main layout (main.hbs) -->
+
+</body>
+

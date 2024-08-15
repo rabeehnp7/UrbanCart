@@ -1,0 +1,52 @@
+<style>
+    .top {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        .card {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 450px;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+        h1 {
+            color: #28a745;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        .btn {
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+</style>
+<div class="top">
+    <div class="card">
+    <h1>Order Placed Successfully!</h1>
+    <p>Your order has been placed and is being processed. Thank you for shopping with us!</p>
+    <a href="/orders" class="btn btn-primary">Go to My Orders</a>
+</div>
+</div>
