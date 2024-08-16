@@ -6,7 +6,7 @@ const state = {
 };
 
 // MongoDB connection string with additional options for SSL
-const url = process.env.MONGODB_URI ;
+const url = process.env.MONGODB_URI || "mongodb+srv://rabeehperidot:pDNjo2TJP3yDCx82@urbancart.qezmk.mongodb.net/shop?retryWrites=true&w=majority";
 
 // Database name
 const dbName = "shop";
