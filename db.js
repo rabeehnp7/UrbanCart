@@ -4,12 +4,18 @@ const state = {
   db: null,
 };
 
-// MongoDB connection string
-const url = process.env.MONGODB_URI || "mongodb+srv://rabeehperidot:pDNjo2TJP3yDCx82@urbancart.qezmk.mongodb.net/?retryWrites=true&w=majority&appName=UrbanCart";
+// MongoDB connection string with additional options for SSL
+const url = process.env.MONGODB_URI || "mongodb+srv://rabeehperidot:pDNjo2TJP3yDCx82@urbancart.qezmk.mongodb.net/shop?retryWrites=true&w=majority";
 
 // Database name
 const dbName = "shop";
-const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  tls: true, // Ensure TLS is enabled
+  tlsAllowInvalidCertificates: false, // Optional: Ensure certificates are valid
+  tlsAllowInvalidHostnames: false, // Optional: Ensure hostnames match
+});
 
 // Function to establish MongoDB connection
 const connect = async (cb) => {
