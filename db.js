@@ -1,11 +1,12 @@
 const { MongoClient } = require("mongodb");
+require('dotenv').config();
 
 const state = {
   db: null,
 };
 
 // MongoDB connection string with additional options for SSL
-const url = process.env.MONGODB_URI || "mongodb+srv://rabeehperidot:pDNjo2TJP3yDCx82@urbancart.qezmk.mongodb.net/shop?retryWrites=true&w=majority";
+const url = process.env.MONGODB_URI ;
 
 // Database name
 const dbName = "shop";
