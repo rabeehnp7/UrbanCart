@@ -1,37 +1,42 @@
 const { MongoClient } = require("mongodb");
 
 const state = {
-  db: null
+  db: null,
 };
 
-// mongodb connection string
-const url = "mongodb+srv://rabeehperidot:pDNjo2TJP3yDCx82@urbancart.qezmk.mongodb.net/?retryWrites=true&w=majority&appName=UrbanCart";
-// database name
-const dbName = "shop";
-const client = new MongoClient(url);
+// MongoDB connection string
+const url = process.env.MONGODB_URI || "mongodb+srv://rabeehperidot:pDNjo2TJP3yDCx82@urbancart.qezmk.mongodb.net/?retryWrites=true&w=majority&appName=UrbanCart";
 
-// function to establish mongodb connection
+// Database name
+const dbName = "shop";
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
+// Function to establish MongoDB connection
 const connect = async (cb) => {
   try {
-    // connecting to mongodb
+    console.log("Attempting to connect to MongoDB...");
     await client.connect();
-    // setting up database name to the connected client
+    console.log("Connected to MongoDB");
     const db = client.db(dbName);
-    // setting up database name to the state
     state.db = db;
-    // callback after connected
     return cb();
   } catch (err) {
-    // callback when an error occurs
+    console.error("Failed to connect to MongoDB:", err);
     return cb(err);
   }
 };
 
-// function to get the database instance
-const get = () => state.db;
+// Function to get the database instance
+const get = () => {
+  if (!state.db) {
+    console.error("Database not initialized. Please connect first.");
+    throw new Error("Database not initialized");
+  }
+  return state.db;
+};
 
-// exporting functions
+// Exporting functions
 module.exports = {
   connect,
   get,
-}
+};
